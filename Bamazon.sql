@@ -40,3 +40,5 @@ VALUES ("Christmas Ornaments", "Holidays", 10, 100);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Mystery Box", "Misc", 25, 10);
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
