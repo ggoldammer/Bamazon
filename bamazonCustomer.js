@@ -1,29 +1,19 @@
 const inquirer = require("inquirer");
 const mySqlConnect = require("./mySqlConnect");
 const mySqlQueries = require("./mySqlQueries");
+const inquirerQuestions = require("./inquirerQuestions");
 
 mySqlConnect.connection;
 mySqlConnect.connectionCheck();
 
-mySqlQueries.getProducts;
-console.log(mySqlQueries.products);
+mySqlQueries.getProducts(function(results){
+    console.log(results);
 
-console.log("ending");
+    inquirerQuestions.questions();
+});
+
+
 mySqlConnect.connection.end();
-
-// mySqlQueries.products;
-// mySqlConnect.connection.end();
-
-// connection.query("SELECT product_id, product_name, stock_quantity FROM products", function (err, results) {
-//     let productNames = [];
-//     let productID;
-//     for (let i = 0; i < results.length; i++) {
-//         productNames.push(results[i].product_name);
-//     }
-//     initiateQuestions(productNames, results);
-// });
-
-// connection.end();
 
 // function initiateQuestions(productNames, results) {
 //     inquirer.prompt(questions(productNames)[0]).then(answer1 => {

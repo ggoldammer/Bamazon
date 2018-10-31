@@ -1,17 +1,11 @@
 const mySqlConnect = require("./mySqlConnect");
 
-function getProducts() {
+function getProducts(callback) {
     mySqlConnect.connection.query("SELECT product_id, product_name, stock_quantity FROM products", function (err, results) {
-        return products(results);
+        callback(results);
     });
 }
 
-function products(results){
-    console.log(results);
-    return results;
-};
-
 module.exports = {
-    products,
     getProducts
 }
