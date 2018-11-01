@@ -1,4 +1,3 @@
-const inquirer = require("inquirer");
 const mySqlConnect = require("./mySqlConnect");
 const mySqlQueries = require("./mySqlQueries");
 const inquirerQuestions = require("./inquirerQuestions");
@@ -7,9 +6,12 @@ mySqlConnect.connection;
 mySqlConnect.connectionCheck();
 
 mySqlQueries.getProducts(function(results){
-    console.log(results);
+    // console.log(results);
 
-    inquirerQuestions.questions();
+    // inquirerQuestions.questions(inquirerQuestions.products, inquirer);
+    
+
+    inquirerQuestions.initiateQuestion(results);
 });
 
 
