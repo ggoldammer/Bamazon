@@ -6,16 +6,35 @@ mySqlConnect.connection;
 mySqlConnect.connectionCheck();
 
 mySqlQueries.getProducts(function(results){
-    // console.log(results);
-
-    // inquirerQuestions.questions(inquirerQuestions.products, inquirer);
-    
 
     inquirerQuestions.initiateQuestion(results);
 });
 
-
 mySqlConnect.connection.end();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // function initiateQuestions(productNames, results) {
 //     inquirer.prompt(questions(productNames)[0]).then(answer1 => {

@@ -6,33 +6,21 @@ const inquirer = require("inquirer");
 
 let initiateQuestion = function (results) {
 
-    console.log(results);
-
-    function products(results) {
-        for (let i = 0; i < results.length; i++) {
-            return results[i].product_name;
-        }
-    }
-    
-    function quantity(results) {
-        for (let i = 0; i < results.length; i++) {
-            return results[i].quantity;
-        }
-    }
+    // Create function to pass into questions. Pass a query that queries SQL for the product names alone.
 
     let questions = [{
         type: "list",
         name: "productChoice",
         message: "Which product would you like to purchase?",
-        choices: products(results)
+        choices: productsArray.productId
     },
     {
         type: "input",
         name: "purchaseAmount",
-        message: "How many would you like to purchase? (Current Quantity: " + quantity(results) + ")"
+        message: "How many would you like to purchase? (Current Quantity: " + "" + ")"
     }];
 
-    inquirer.prompt(questions).then(answers => {
+    inquirer.prompt(questions).then(answer => {
         console.log(answer);
     });
 }
