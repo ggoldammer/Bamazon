@@ -1,16 +1,15 @@
 const mySqlConnect = require("./mySqlConnect");
-const mySqlQueries = require("./mySqlQueries");
 const inquirerQuestions = require("./inquirerQuestions");
 
 mySqlConnect.connection;
 mySqlConnect.connectionCheck();
 
-mySqlQueries.getProducts(function(results){
+let choicesArr = [];
 
-    inquirerQuestions.initiateQuestion(results);
-});
+inquirerQuestions.initiateQuestion();
 
-mySqlConnect.connection.end();
+
+// mySqlConnect.connection.end();
 
 
 

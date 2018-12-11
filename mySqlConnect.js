@@ -15,4 +15,4 @@ let connectionCheck = function () {
     });
 }
 
-module.exports = { connection, connectionCheck }
+module.exports = { connection, connectionCheck } 
