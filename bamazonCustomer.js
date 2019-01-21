@@ -63,6 +63,6 @@ connection.query('SELECT * FROM products', function (error, results) {
     return;
   });
 
-console.log(products);
+// console.log(products);
   
   // connection.end();
