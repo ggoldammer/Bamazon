@@ -1,66 +1,68 @@
-const mySqlConnect = require("./mySqlConnect");
-const mySqlQueries = require("./mySqlQueries");
-const inquirerQuestions = require("./inquirerQuestions");
+const mysql = require('mysql')
+const inquirer = require('inquirer')
 
-mySqlConnect.connection;
-mySqlConnect.connectionCheck();
-
-mySqlQueries.getProducts(function(results){
-    // console.log(results);
-
-    // inquirerQuestions.questions(inquirerQuestions.products, inquirer);
-    
-
-    inquirerQuestions.initiateQuestion(results);
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : 'password',
+  database : 'bamazon_db'
 });
 
+var products;
 
-mySqlConnect.connection.end();
+connection.connect();
 
-// function initiateQuestions(productNames, results) {
-//     inquirer.prompt(questions(productNames)[0]).then(answer1 => {
-//         inquirer.prompt(questions(productQuantity(answer1, results))[1]).then(answer2 => {
-//             console.log(answer1);
-//             console.log(answer2);
-//         });
-//     });
-// }
+connection.query('SELECT * FROM products', function (error, results) {
+    if (error) throw error;
+    products = results;
 
-// let questions = function (input) {
-//     let questionArray = [{
-//         type: "list",
-//         name: "productChoice",
-//         message: "Which product would you like to purchase?",
-//         choices: input
-//     },
-//     {
-//         type: "input",
-//         name: "purchaseAmount",
-//         message: "How many would you like to purchase? (Current Quantity: " + input + ")"
-//     }];
+    console.log("Welcome to Bamazon! Here are our current products:");
 
-//     return questionArray;
-// }
+    for (let i = 0; i < results.length; i++) {
+      console.log(`Id: ${products[i].product_id} - ${products[i].product_name} - Price: ${products[i].price} - Qty: ${products[i].stock_quantity}`)
+    }
 
-// let productQuantity = function (productName, productArray) {
-//     for (let i = 0; i < productArray.length; i++) {
-//         if (productName.productChoice === productArray[i].product_name) {
-//             if(productArray[i].stock_quantity > 0){
-//                 productId = .indexOf(productName.productChoice);
-//                 console.log(productId);
-//                 return productArray[i].stock_quantity;
-//             } else{
-//                 let response = "SOLD OUT";
-//                 return response;
-//             }
-//         }
-//     }
-// }
+    inquirer.prompt([
+      {
+        name: 'id',
+        message: `Type the ID of the item you'd like to purchase.`
+      },
+      {
+        name: 'qty',
+        message: `Type the quantity that you'd like to purchase.`
+      }
+    ]).then(res => {
+      if(isNaN(res.id) || isNaN(res.qty)) {
+        console.log('Invalid Id or Quantity. Exiting...');
+        connection.end();
+        return;
+      }
 
-// function productPurchase(productName, productQuantity){
-//     if(productQuantity === "SOLD OUT"){
-//         console.log("Insufficient inventory");
-//     } else {
-//         connection.query("")
-//     }
-// }
+      if(products[(res.id - 1)].stock_quantity < res.qty){
+        console.log('Not enough to purchase. Exiting...');
+        connection.end();
+        return;
+      }
+      
+      let totalPrice = products[res.id - 1].price * res.qty
+
+      let dbUpdate = 'UPDATE products SET stock_quantity = ' + (products[(res.id - 1)].stock_quantity - res.qty) + ' WHERE product_id = ' + res.id;
+
+      connection.query(dbUpdate, (err, result) => {
+        if(err){
+          console.log(err);
+        }
+
+        console.log(`Total Price: $${totalPrice} `);
+      });
+
+      connection.end();
+
+    })
+
+    return;
+  });
+
+console.log(products);
+  
+  // connection.end();
