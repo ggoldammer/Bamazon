@@ -15,7 +15,7 @@ This was a mySQL and Node.js project for the University of Arizona Coding Bootca
 
 4. Use the following commands:
 
-node bamazonCustomer.js
+`node bamazonCustomer.js`
 
 5. Answer the questions.
 
